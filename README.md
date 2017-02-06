@@ -15,5 +15,12 @@ go get -u github.com/jgsqware/wrk-report
 ```
 wrk -t2 -c5 -d3s --timeout 2s -R100 --latency http://myService | wrk-report > report.html
 ```
+
+### With docker
+
+```
+docker run --rm -e FILENAME=SwitchingGUI.html -v `pwd`:/data jgsqware/wrk-report:latest bash -c 'wrk -t2 -c5 -d3s --timeout 2s -R100 --latency http://myService | wrk-report > /data/$FILENAME.html'
+```
+
 ## Upcoming
 - Parsing wrk result and generate report

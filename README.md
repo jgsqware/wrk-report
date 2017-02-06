@@ -16,10 +16,39 @@ go get -u github.com/jgsqware/wrk-report
 wrk -t2 -c5 -d3s --timeout 2s -R100 --latency http://myService | wrk-report > report.html
 ```
 
+## Multi-request with JSON
+
+```json
+[
+  {
+    "path": "/path-1",
+    "body": "some content",
+    "method": "GET",
+    "headers": {
+      "X-Custom-Header-1": "test 1",
+      "X-Custom-Header-2": "test 2"
+    }
+  },
+  {
+    "path": "/path-2",
+    "body": "some content",
+    "method": "POST",
+    "headers": {
+      "X-Custom-Header-1": "test 3",
+      "X-Custom-Header-2": "test 4"
+    }
+  }
+]
+```
+
+```
+docker run --rm -e FILENAME=report.html -v `pwd`:/data jgsqware/wrk-report:latest bash -c 'wrk -t2 -c5 -d3s --timeout 2s -R100 -s /scripts/multi-request-json.lua --latency http://myService | wrk-report > /data/$FILENAME'
+```
+
 ### With docker
 
 ```
-docker run --rm -e FILENAME=SwitchingGUI.html -v `pwd`:/data jgsqware/wrk-report:latest bash -c 'wrk -t2 -c5 -d3s --timeout 2s -R100 --latency http://myService | wrk-report > /data/$FILENAME.html'
+docker run --rm -e FILENAME=report.html -v `pwd`:/data jgsqware/wrk-report:latest bash -c 'wrk -t2 -c5 -d3s --timeout 2s -R100 --latency http://myService | wrk-report > /data/$FILENAME'
 ```
 
 ## Upcoming
